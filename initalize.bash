@@ -118,6 +118,12 @@ install_node_and_nvm() {
     fi
 }
 
+# Function to install Amplify CLI
+install_amplify_cli() {
+    log "Installing Amplify CLI..."
+    npm install -g @aws-amplify/cli || { log_error "Amplify CLI installation failed"; exit 1; }
+}
+
 # Function to configure Amplify CLI in headless mode
 configure_amplify_cli() {
     log "Configuring Amplify CLI..."
@@ -215,6 +221,9 @@ main() {
 
     # Install NVM and Node.js
     install_node_and_nvm
+
+    # Install Amplify CLI
+    install_amplify_cli
 
     # Verify all required tools are installed
     log "Verifying installations..."
