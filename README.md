@@ -26,8 +26,6 @@ Before running the setup script, ensure you have the following:
 - An **AWS account** with sufficient permissions to create and manage Amplify projects.
 - An **existing Amplify app created in the AWS Console** (you'll need the App ID).
 - Access to an **Ubuntu** environment (local or EC2 instance) with internet connectivity.
-- **Node.js** and **npm** installed on your system.
-- **AWS CLI** installed and configured with your credentials.
 
 ## Repository Contents
 
