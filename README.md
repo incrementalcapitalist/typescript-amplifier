@@ -65,7 +65,9 @@ bash initialize.bash
 When you run the script, it will perform the following actions:
 
 1. **Prompt for Project Details:**
-   - You will be asked to enter a name for your AWS Amplify project, the App ID, and the branch name.
+   - You will be asked to enter a name for your AWS Amplify project. Note: The project name must be in lowercase due to npm naming restrictions.
+   - You'll need to provide the App ID (found in the AWS Amplify console).
+   - You'll be asked for the branch name (e.g., 'main' or 'develop').
 
 2. **System Update and Upgrade:**
    - Updates the package index and performs a full system upgrade (requires sudo).
@@ -85,7 +87,8 @@ When you run the script, it will perform the following actions:
 
 7. **Configure AWS CLI and Amplify CLI:**
    - Sets up AWS CLI with your credentials.
-   - Configures Amplify CLI for use with your AWS account.
+   - Attempts to configure the Amplify CLI automatically.
+   - Note: You may see a message "Headless mode is not implemented for @aws-amplify/cli-internal". This can be ignored if the script continues to run successfully.
 
 8. **Set up React TypeScript Project:**
    - Creates a new React app with TypeScript template.
@@ -138,6 +141,8 @@ The `initialize.bash` script for a Typescript/React Gen 2 Amplify project.
 - **Script Errors:** If any errors occur during script execution, they will be logged. Review the log for troubleshooting.
 - **NVM or Node.js Installation Issues**: If you encounter problems with NVM or Node.js installation, try restarting your terminal or sourcing your bash profile after the script completes.
 - **Amplify CLI Installation Fails**: If the Amplify CLI installation fails, you may need to run `npm install -g @aws-amplify/cli` manually after the script completes.
+- **Amplify CLI Configuration: If you see the message "Headless mode is not implemented for @aws-amplify/cli-internal", don't worry. The script should continue to run successfully without requiring manual configuration. If you do encounter issues, you can try running amplify configure manually after the script completes.
+- **Project Name Errors: Ensure that your project name is in lowercase. The script will prompt you to re-enter the name if it contains any capital letters.
 
 ## Contributing
 

@@ -134,6 +134,7 @@ ${AWS_DEFAULT_REGION}
 javascript
 ${AWS_PROFILE}
 EOF
+    log "Note: You may see a message 'Headless mode is not implemented for @aws-amplify/cli-internal'. This can be ignored if the script continues to run successfully."
 }
 
 # Function to set up the React TypeScript project
