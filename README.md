@@ -74,20 +74,23 @@ When you run the script, it will perform the following actions:
 3. **Install Dependencies:**
    - Installs `unzip` and `curl`.
 
-4. **Verify Required Tools:**
-   - Checks for the presence of Node.js, npm, AWS CLI, and Amplify CLI.
+4. **Install AWS CLI:**
+   - Downloads and installs the AWS CLI (version 2) if not already installed.
 
-5. **Configure AWS CLI and Amplify CLI:**
-   - Sets up AWS CLI and Amplify CLI with your credentials.
+5. **Install Node Version Manager (NVM) and Node.js:**
+   - Installs NVM if not already installed.
+   - Uses NVM to install the latest version of Node.js and npm.
 
-6. **Set Up React TypeScript Project:**
-   - Creates a new React app with TypeScript template.
-   - Installs necessary dependencies including AWS Amplify and Tailwind CSS.
-   - Configures Tailwind CSS.
+6. **Install Amplify CLI:**
+   - Installs the Amplify CLI globally using npm if not already installed.
 
-7. **Initialize Amplify in the React App:**
-   - Initializes Amplify with the provided App ID and branch name.
-   - Configures the React app to use Amplify.
+7. **Configure AWS CLI and Amplify CLI:**
+   - Sets up AWS CLI with your credentials.
+   - Configures Amplify CLI for use with your AWS account.
+
+8. **Initialize a New Amplify Gen 2 Project:**
+   - Creates a new directory for your project.
+   - Initializes a new Amplify Gen 2 project with the provided App ID and branch name.
 
 ## Verify Installation
 
