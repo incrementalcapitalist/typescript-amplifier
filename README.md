@@ -1,8 +1,8 @@
 ---
 
-# AWS Amplify Starter Template
+# TypeScript Amplifier: AWS Amplify Gen 2 Starter Template
 
-This repository provides a starter template for AWS Amplify development. It includes bash scripts that automate the setup of the necessary tools and configuration for AWS Amplify on a new environment, supporting both Generation 1 (Gen 1) and Generation 2 (Gen 2) Amplify configurations.
+This repository provides a starter template for AWS Amplify Gen 2 development with TypeScript and React. It includes a bash script (`initialize.bash`) that automates the setup of the necessary tools and configuration for AWS Amplify on a new environment.
 
 ## Table of Contents
 
@@ -15,28 +15,24 @@ This repository provides a starter template for AWS Amplify development. It incl
 4. [Script Workflow](#script-workflow)
 5. [Verify Installation](#verify-installation)
 6. [Start Developing with AWS Amplify](#start-developing-with-aws-amplify)
-7. [Script Details](#script-details)
-   - [AWS Credentials Transfer](#aws-credentials-transfer)
-   - [Amplify Setup Script Selector](#amplify-setup-script-selector)
-   - [Gen 1 Setup Script](#gen-1-setup-script)
-   - [Gen 2 Setup Script](#gen-2-setup-script)
-8. [Troubleshooting](#troubleshooting)
-9. [Contributing](#contributing)
-10. [License](#license)
+7. [Troubleshooting](#troubleshooting)
+8. [Contributing](#contributing)
+9. [License](#license)
 
 ## Prerequisites
 
-Before running the setup scripts, ensure you have the following:
+Before running the setup script, ensure you have the following:
 
 - An **AWS account** with sufficient permissions to create and manage Amplify projects.
+- An **existing Amplify app created in the AWS Console** (you'll need the App ID).
 - Access to an **Ubuntu** environment (local or EC2 instance) with internet connectivity.
+- **Node.js** and **npm** installed on your system.
+- **AWS CLI** installed and configured with your credentials.
 
 ## Repository Contents
 
-- `transfer-aws-configuration.bash`: Script to securely transfer AWS credentials to a remote server [run from your MacBook Pro].
-- `initialize.bash`: Main script to choose between Gen 1 and Gen 2 Amplify setup.
-- `amplify-gen1-setup-script.bash`: Script to set up a Gen 1 Amplify project.
-- `amplify-gen2-setup-script.bash`: Script to set up a Gen 2 Amplify project.
+- `transfer-aws-configuration.bash`: Script to securely transfer AWS credentials to a remote server [run from your local machine].
+- `initialize.bash`: Main script to set up a Gen 2 Amplify project with TypeScript and React.
 
 ## Setup Instructions
 
@@ -53,13 +49,13 @@ bash transfer-aws-configuration.bash
 Clone this repository to your local machine or remote environment:
 
 ```bash
-git clone https://github.com/incrementalcapitalist/amplifier.git
-cd amplifier
+git clone https://github.com/incrementalcapitalist/typescript-amplifier.git
+cd typescript-amplifier
 ```
 
 ### 3. Run the Initialization Script
 
-Run the Amplify setup selector script:
+Run the initialization script:
 
 ```bash
 bash initialize.bash
@@ -69,8 +65,8 @@ bash initialize.bash
 
 When you run the script, it will perform the following actions:
 
-1. **Prompt for Project Name and Type:**
-   - You will be asked to enter a name for your AWS Amplify project and choose between Gen 1 and Gen 2 setup.
+1. **Prompt for Project Details:**
+   - You will be asked to enter a name for your AWS Amplify project, the App ID, and the branch name.
 
 2. **System Update and Upgrade:**
    - Updates the package index and performs a full system upgrade.
@@ -78,25 +74,24 @@ When you run the script, it will perform the following actions:
 3. **Install Dependencies:**
    - Installs `unzip` and `curl`.
 
-4. **Install AWS CLI:**
-   - Downloads and installs the AWS CLI (version 2).
+4. **Verify Required Tools:**
+   - Checks for the presence of Node.js, npm, AWS CLI, and Amplify CLI.
 
-5. **Install Node Version Manager (NVM) and Node.js:**
-   - Installs NVM and the latest stable version of Node.js and npm.
+5. **Configure AWS CLI and Amplify CLI:**
+   - Sets up AWS CLI and Amplify CLI with your credentials.
 
-6. **Install Amplify CLI:**
-   - Installs the Amplify CLI globally using npm.
+6. **Set Up React TypeScript Project:**
+   - Creates a new React app with TypeScript template.
+   - Installs necessary dependencies including AWS Amplify and Tailwind CSS.
+   - Configures Tailwind CSS.
 
-7. **AWS CLI and Amplify CLI Configuration:**
-   - Configures AWS CLI with your credentials.
-   - Sets up AWS Amplify for use in your projects.
-
-8. **Initialize a New Amplify Project:**
-   - Creates a directory with the provided name and initializes a new Amplify project.
+7. **Initialize Amplify in the React App:**
+   - Initializes Amplify with the provided App ID and branch name.
+   - Configures the React app to use Amplify.
 
 ## Verify Installation
 
-After running the script, verify the installation:
+After running the script, verify the installation by checking the versions of the installed tools:
 
 ```bash
 nvm -v
@@ -112,9 +107,11 @@ Navigate to the newly created Amplify project directory:
 
 ```bash
 cd your-project-name
+npm start
 ```
 
 Replace `your-project-name` with the name you provided during script execution.
+
 
 ## Script Details
 
@@ -122,17 +119,10 @@ Replace `your-project-name` with the name you provided during script execution.
 
 The `transfer-aws-configuration.bash` script securely copies your local AWS credentials to a remote server.
 
-### Initialize (The Amplify Setup Script Selector)
+### Initialize 
 
-The `initialize.bash` script allows you to choose between setting up a Gen 1 or Gen 2 Amplify project.
+The `initialize.bash` script for a Typescript/React Gen 2 Amplify project.
 
-### Gen 1 Setup Script
-
-The `amplify-gen1-setup-script.bash` sets up a Gen 1 Amplify project.
-
-### Gen 2 Setup Script
-
-The `amplify-gen2-setup-script.bash` sets up a Gen 2 Amplify project, prompting for the Amplify App ID and branch name.
 
 ## Troubleshooting
 
