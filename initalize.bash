@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # TypeScript Amplifier: AWS Amplify Gen 2 Project Setup Script
-# Version: 1.0
+# Version: 1.2
 # Author: Incremental Capitalist
 # Date: Thursday, August 8th, 2024
 #
@@ -92,6 +92,32 @@ configure_aws_cli() {
     export AWS_PROFILE
 }
 
+# Function to install NVM and Node.js
+install_node_and_nvm() {
+    if [ ! -d "$HOME/.nvm" ]; then
+        log "Installing NVM..."
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash || { log_error "NVM installation failed"; exit 1; }
+        export NVM_DIR="$HOME/.nvm"
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+        log "Installing Node.js using NVM..."
+        nvm install node || { log_error "Node.js installation failed"; exit 1; }
+        nvm use node
+    else
+        log "NVM is already installed."
+        # Ensure NVM is loaded
+        export NVM_DIR="$HOME/.nvm"
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+        # Check if Node.js is installed, if not install it
+        if ! command -v node &> /dev/null; then
+            log "Installing Node.js using NVM..."
+            nvm install node || { log_error "Node.js installation failed"; exit 1; }
+            nvm use node
+        else
+            log "Node.js is already installed."
+        fi
+    fi
+}
+
 # Function to configure Amplify CLI in headless mode
 configure_amplify_cli() {
     log "Configuring Amplify CLI..."
@@ -174,6 +200,21 @@ main() {
     # Install necessary packages
     install_package unzip
     install_package curl
+
+    # Install AWS CLI if not already installed
+    if ! command -v aws &> /dev/null; then
+        log "Installing AWS CLI..."
+        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" || { log_error "AWS CLI download failed"; exit 1; }
+        unzip awscliv2.zip || { log_error "AWS CLI unzip failed"; exit 1; }
+        sudo ./aws/install || { log_error "AWS CLI installation failed"; exit 1; }
+        rm awscliv2.zip
+        rm -rf aws
+    else
+        log "AWS CLI is already installed."
+    fi
+
+    # Install NVM and Node.js
+    install_node_and_nvm
 
     # Verify all required tools are installed
     log "Verifying installations..."

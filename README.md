@@ -26,6 +26,7 @@ Before running the setup script, ensure you have the following:
 - An **AWS account** with sufficient permissions to create and manage Amplify projects.
 - An **existing Amplify app created in the AWS Console** (you'll need the App ID).
 - Access to an **Ubuntu** environment (local or EC2 instance) with internet connectivity.
+- **Sudo privileges** may be required for system updates and installing certain packages.
 
 ## Repository Contents
 
@@ -79,16 +80,18 @@ When you run the script, it will perform the following actions:
    - Installs NVM if not already installed.
    - Uses NVM to install the latest version of Node.js and npm.
 
-6. **Install Amplify CLI:**
-   - Installs the Amplify CLI globally using npm if not already installed.
-
-7. **Configure AWS CLI and Amplify CLI:**
+6. **Configure AWS CLI and Amplify CLI:**
    - Sets up AWS CLI with your credentials.
    - Configures Amplify CLI for use with your AWS account.
 
-8. **Initialize a New Amplify Gen 2 Project:**
-   - Creates a new directory for your project.
+7. **Set up React TypeScript Project:**
+   - Creates a new React app with TypeScript template.
+   - Installs necessary dependencies including AWS Amplify and Tailwind CSS.
+   - Configures Tailwind CSS.
+
+8. **Initialize Amplify in the React App:**
    - Initializes a new Amplify Gen 2 project with the provided App ID and branch name.
+   - Configures the React app to use Amplify.
 
 ## Verify Installation
 
@@ -130,6 +133,7 @@ The `initialize.bash` script for a Typescript/React Gen 2 Amplify project.
 - **AWS CLI or Amplify CLI not recognized**: Ensure that your PATH is correctly set. You can manually add paths to your `.bashrc` or `.bash_profile` if necessary.
 - **Permission Denied Errors**: Make sure you are running the script with sufficient permissions (`sudo` may be required for some commands).
 - **Script Errors:** If any errors occur during script execution, they will be logged. Review the log for troubleshooting.
+- **NVM or Node.js Installation Issues**: If you encounter problems with NVM or Node.js installation, try restarting your terminal or sourcing your bash profile after the script completes.
 
 ## Contributing
 
