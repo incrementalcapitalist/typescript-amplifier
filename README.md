@@ -69,10 +69,10 @@ When you run the script, it will perform the following actions:
    - You will be asked to enter a name for your AWS Amplify project, the App ID, and the branch name.
 
 2. **System Update and Upgrade:**
-   - Updates the package index and performs a full system upgrade.
+   - Updates the package index and performs a full system upgrade (requires sudo).
 
 3. **Install Dependencies:**
-   - Installs `unzip` and `curl`.
+   - Installs `unzip` and `curl` if not already installed (requires sudo).
 
 4. **Install AWS CLI:**
    - Downloads and installs the AWS CLI (version 2) if not already installed.
