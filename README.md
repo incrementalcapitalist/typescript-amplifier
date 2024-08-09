@@ -1,5 +1,3 @@
----
-
 # TypeScript Amplifier: AWS Amplify Gen 2 Starter Template
 
 This repository provides a starter template for AWS Amplify Gen 2 development with TypeScript and React. It includes a bash script (`initialize.bash`) that automates the setup of the necessary tools and configuration for AWS Amplify on a new environment.
@@ -203,5 +201,3 @@ This project is licensed under the GNU General Public License (GPL) v3.0. See th
 ### Why GPL v3?
 
 The GPL v3 license enforces strong copyleft requirements and ensures that all derivative works of this project remain open source. This license also provides additional protections against patent claims, which aligns with the goal to keep contributions and derivatives freely available and to safeguard the project's integrity and freedom.
-
----
