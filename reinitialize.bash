@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # TypeScript Amplifier: AWS Amplify Gen 2 Project Setup Script
-# Version: 1.2
+# Version: 1.3
 # Author: Incremental Capitalist
 # Date: Friday, August 9th, 2024
 #
 # This script automates the setup process for an existing AWS Amplify Gen 2 project with React and TypeScript.
-# It handles system updates, installation of necessary tools, and "re-initialization" of a existing Amplify project.
+# It handles system updates, installation of necessary tools, and "re-initialization" of an existing Amplify project.
 #
 # Prerequisites:
 # - An AWS account with sufficient permissions to create and manage Amplify projects
@@ -135,6 +135,80 @@ EOF
     log "Note: You may see a message 'Headless mode is not implemented for @aws-amplify/cli-internal'. This can be ignored if the script continues to run successfully."
 }
 
+# Function to initialize or reinitialize Amplify project
+initialize_amplify_project() {
+    log "Navigating to project directory..."
+    mkdir -p "$project_name"
+    cd "$project_name" || { log_error "Failed to navigate to project directory"; exit 1; }
+
+    log "Checking for existing Amplify project..."
+    if [ -d "amplify" ]; then
+        log "Existing Amplify project found. Reinitializing..."
+        amplify init --appId "$AWS_AMPLIFY_APP_ID" --envName "$AWS_BRANCH" || { log_error "Amplify reinitialization failed"; exit 1; }
+    else
+        log "No existing Amplify project found. Initializing new project..."
+        amplify init --appId "$AWS_AMPLIFY_APP_ID" --envName "$AWS_BRANCH" || { log_error "Amplify initialization failed"; exit 1; }
+    fi
+}
+
+# Function to install and validate project dependencies
+install_and_validate_dependencies() {
+    log "Cleaning npm cache..."
+    npm cache clean --force
+
+    log "Removing existing node_modules and package-lock.json..."
+    rm -rf node_modules package-lock.json
+
+    log "Installing project dependencies..."
+    npm install || { log_error "Failed to install project dependencies"; exit 1; }
+
+    log "Installing AWS Amplify libraries..."
+    npm install aws-amplify @aws-amplify/ui-react || { log_error "Failed to install AWS Amplify libraries"; exit 1; }
+
+    log "Checking for outdated packages..."
+    npm outdated
+
+    log "Building the project..."
+    npm run build || { log_error "Failed to build the project"; exit 1; }
+    
+    log "Installing serve globally..."
+    npm install -g serve || { log_error "Failed to install serve globally"; exit 1; }
+}
+
+# Function to configure Amplify in the main React file
+configure_amplify_in_react() {
+    local main_file=""
+    if [ -f "src/index.ts" ]; then
+        main_file="src/index.ts"
+    elif [ -f "src/index.tsx" ]; then
+        main_file="src/index.tsx"
+    elif [ -f "src/App.tsx" ]; then
+        main_file="src/App.tsx"
+    else
+        log_error "Could not find src/index.ts, src/index.tsx, or src/App.tsx"
+        return 1
+    fi
+
+    log "Configuring Amplify in $main_file..."
+
+    # Check if Amplify is already imported and configured
+    if grep -q "import { Amplify } from 'aws-amplify';" "$main_file" && \
+       grep -q "import awsconfig from './aws-exports';" "$main_file" && \
+       grep -q "Amplify.configure(awsconfig);" "$main_file"; then
+        log "Amplify is already configured in $main_file"
+        return 0
+    fi
+
+    # Add Amplify import and configuration
+    awk '
+    FNR==1 {print "import { Amplify } from '\''aws-amplify'\'';"; print "import awsconfig from '\''./aws-exports'\'';"; print ""}
+    {print}
+    END {print "\nAmplify.configure(awsconfig);"}
+    ' "$main_file" > "${main_file}.tmp" && mv "${main_file}.tmp" "$main_file"
+
+    log "Amplify configuration added to $main_file"
+}
+
 # Main function that orchestrates the entire setup process
 main() {
     log "Starting TypeScript Amplifier setup..."
@@ -177,24 +251,38 @@ main() {
     check_command aws
     check_command amplify
 
-    # Install project dependencies
-    log "Installing project dependencies..."
-    npm install || { log_error "Failed to install project dependencies"; exit 1; }
-
     # Configure AWS CLI
     configure_aws_cli
 
     # Configure Amplify CLI
     configure_amplify_cli
 
+    # Navigate to project directory
+    log "Navigating to project directory..."
+    mkdir -p "$project_name"
+    cd "$project_name" || { log_error "Failed to navigate to project directory"; exit 1; }
+
+    # Initialize or reinitialize Amplify project
+    initialize_amplify_project
+
+    # Install and validate project dependencies
+    install_and_validate_dependencies
+
+    # Configure Amplify in the main React file
+    configure_amplify_in_react || { log_error "Failed to configure Amplify in React file"; exit 1; }
+
     log "TypeScript Amplifier setup completed successfully!"
     log "Your AWS Amplify Gen 2 project with React and TypeScript is now ready."
+    log "To ensure all changes take effect, please do one of the following:"
+    log "1. Log out and log back in, or"
+    log "2. Run the following command: source ~/.bashrc"
     log "Next steps:"
-    log "1. Review the project structure and configurations."
+    log "1. Review the project structure and configurations in the 'amplify' directory."
     log "2. Add your custom components and logic to the React app."
     log "3. Use 'amplify add' commands to add new features (e.g., 'amplify add api' for GraphQL API)."
     log "4. Deploy your app using 'amplify push' when ready."
     log "5. Start the development server with 'npm start' to see your app in action."
+    log "If you encounter any issues, try serving the built version with: npx serve -s build"
     log "For more information, visit the Amplify documentation: https://docs.amplify.aws/"
 }
 
