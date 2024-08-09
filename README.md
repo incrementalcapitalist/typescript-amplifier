@@ -6,11 +6,11 @@ This repository provides a starter template for AWS Amplify Gen 2 development wi
 
 Key features:
 
- - Automated setup of AWS Amplify Gen 2 environment
- - TypeScript and React integration out of the box
- - Tailwind CSS configuration for rapid UI development
- - Easy transfer of AWS credentials to remote environments
- - Scripts for both initial setup and reinitialization on new instances
+- Automated setup of AWS Amplify Gen 2 environment
+- TypeScript and React integration out of the box
+- Tailwind CSS configuration for rapid UI development
+- Easy transfer of AWS credentials to remote environments
+- Scripts for both initial setup and reinitialization on new instances
 
 ## Table of Contents
 
