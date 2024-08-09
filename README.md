@@ -4,20 +4,31 @@
 
 This repository provides a starter template for AWS Amplify Gen 2 development with TypeScript and React. It includes a bash script (`initialize.bash`) that automates the setup of the necessary tools and configuration for AWS Amplify on a new environment.
 
+Key features:
+
+ - Automated setup of AWS Amplify Gen 2 environment
+ - TypeScript and React integration out of the box
+ - Tailwind CSS configuration for rapid UI development
+ - Easy transfer of AWS credentials to remote environments
+ - Scripts for both initial setup and reinitialization on new instances
+
 ## Table of Contents
 
 1. [Prerequisites](#prerequisites)
 2. [Repository Contents](#repository-contents)
 3. [Setup Instructions](#setup-instructions)
+   - [Create Amplify App in AWS Console](#0-create-amplify-app-in-aws-console)
    - [Copy AWS Credentials](#1-copy-aws-credentials)
    - [Clone the Repository](#2-clone-the-repository)
    - [Run the Initialization Script](#3-run-the-initialization-script)
 4. [Script Workflow](#script-workflow)
 5. [Verify Installation](#verify-installation)
 6. [Start Developing with AWS Amplify](#start-developing-with-aws-amplify)
-7. [Troubleshooting](#troubleshooting)
-8. [Contributing](#contributing)
-9. [License](#license)
+7. [Script Details](#script-details)
+8. [Troubleshooting](#troubleshooting)
+9. [Reinitializing on a New EC2 Instance](#reinitializing-on-a-new-ec2-instance)
+10. [Contributing](#contributing)
+11. [License](#license)
 
 ## Prerequisites
 
@@ -32,8 +43,20 @@ Before running the setup script, ensure you have the following:
 
 - `transfer-aws-configuration.bash`: Script to securely transfer AWS credentials to a remote server [run from your local machine].
 - `initialize.bash`: Main script to set up a Gen 2 Amplify project with TypeScript and React.
+- `reinitialize.bash`: Script to set up an existing TypeScript/React Amplify project on a new EC2 instance.
 
 ## Setup Instructions
+
+### 0. Create Amplify App in AWS Console
+
+Before running the initialization script, you need to create an Amplify app in the AWS Console:
+
+ 1. Sign in to the AWS Management Console.
+ 2. Navigate to the AWS Amplify service.
+ 3. Click "New app" and select "Build an app".
+ 4. Choose a name for your app and select your preferred Git provider (or "Deploy without Git provider" if you prefer).
+ 5. Follow the prompts to complete the app creation.
+ 6. Once created, note down the App ID from the app information section. You'll need this when running the initialization script.
 
 ### 1. Copy AWS Credentials
 
@@ -143,6 +166,31 @@ The `initialize.bash` script for a Typescript/React Gen 2 Amplify project.
 - **Amplify CLI Installation Fails**: If the Amplify CLI installation fails, you may need to run `npm install -g @aws-amplify/cli` manually after the script completes.
 - **Amplify CLI Configuration: If you see the message "Headless mode is not implemented for @aws-amplify/cli-internal", don't worry. The script should continue to run successfully without requiring manual configuration. If you do encounter issues, you can try running amplify configure manually after the script completes.
 - **Project Name Errors: Ensure that your project name is in lowercase. The script will prompt you to re-enter the name if it contains any capital letters.
+
+## Reinitializing on a New EC2 Instance
+
+If you need to set up your existing TypeScript/React Amplify project on a new EC2 instance, follow these steps:
+
+1. Run the `transfer-aws-configuration.bash` script on your local machine to copy AWS credentials to the new EC2 instance.
+2. SSH into your new EC2 instance.
+3. Clone or copy your project to your local machine or remote environment:
+   ```bash
+   git clone https://github.com/incrementalcapitalist/typescript-amplifier.git
+   cd typescript-amplifier
+   ```
+4. Run the reinitialization script:
+   ```
+   bash reinitialize.bash
+   ```
+
+This script will:
+- Update the system and install necessary packages
+- Install AWS CLI, NVM, Node.js, and Amplify CLI
+- Verify AWS credentials
+- Install project dependencies
+- Initialize Amplify in the existing project
+
+Note: This script assumes your project is already set up and you're moving it to a new EC2 instance. It does not create a new Amplify project from scratch.
 
 ## Contributing
 
